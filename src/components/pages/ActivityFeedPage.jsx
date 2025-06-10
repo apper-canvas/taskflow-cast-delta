@@ -1,253 +1,193 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { formatDistanceToNow, parseISO } from 'date-fns';
-import { Clock, Filter, Folder, CheckSquare, FolderOpen, User, Calendar, AlertCircle, TrendingUp, Archive } from 'lucide-react';
-import Card from '@/components/atoms/Card';
-import Button from '@/components/atoms/Button';
-import Select from '@/components/atoms/Select';
-import LoadingState from '@/components/organisms/LoadingState';
-import ErrorState from '@/components/organisms/ErrorState';
-import EmptyState from '@/components/organisms/EmptyState';
+import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
+import ApperIcon from '@/components/ApperIcon';
 import activityService from '@/services/api/activityService';
 import projectService from '@/services/api/projectService';
+import LoadingState from '@/components/organisms/LoadingState';
+import ErrorState from '@/components/organisms/ErrorState';
+import Select from '@/components/atoms/Select';
+import { format } from 'date-fns';
 
-const ACTIVITY_TYPES = {
-  all: 'All Activities',
-  project: 'Projects',
-  task: 'Tasks'
-};
-
-const ACTIVITY_ICONS = {
-  project_created: FolderOpen,
-  project_updated: FolderOpen,
-  project_deleted: Archive,
-  task_created: CheckSquare,
-  task_updated: CheckSquare,
-  task_deleted: Archive,
-  task_status_changed: TrendingUp,
-  task_assigned: User,
-  task_completed: CheckSquare,
-  task_priority_changed: AlertCircle,
-  task_due_date_changed: Calendar
-};
-
-const ACTIVITY_COLORS = {
-  project_created: 'text-blue-600 bg-blue-50',
-  project_updated: 'text-blue-600 bg-blue-50',
-  project_deleted: 'text-red-600 bg-red-50',
-  task_created: 'text-green-600 bg-green-50',
-  task_updated: 'text-yellow-600 bg-yellow-50',
-  task_deleted: 'text-red-600 bg-red-50',
-  task_status_changed: 'text-purple-600 bg-purple-50',
-  task_assigned: 'text-indigo-600 bg-indigo-50',
-  task_completed: 'text-green-600 bg-green-50',
-  task_priority_changed: 'text-orange-600 bg-orange-50',
-  task_due_date_changed: 'text-blue-600 bg-blue-50'
-};
-
-function ActivityFeedPage() {
+const ActivityFeedPage = () => {
   const [activities, setActivities] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     eventType: 'all',
     projectId: 'all'
   });
-  const [displayCount, setDisplayCount] = useState(20);
 
   useEffect(() => {
-    fetchData();
+    loadData();
   }, [filters]);
 
-  const fetchData = async () => {
+  const loadData = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
-      
       const [activitiesData, projectsData] = await Promise.all([
         activityService.getAll(filters),
         projectService.getAll()
       ]);
-      
-      setActivities(activitiesData);
-      setProjects(projectsData);
+      setActivities(activitiesData || []);
+      setProjects(projectsData || []);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to load activity feed');
+      toast.error('Failed to load activity feed');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [key]: value
-    }));
-    setDisplayCount(20); // Reset display count when filtering
-  };
-
-  const loadMore = () => {
-    setDisplayCount(prev => prev + 20);
-  };
-
   const getActivityIcon = (type) => {
-    const IconComponent = ACTIVITY_ICONS[type] || CheckSquare;
-    return IconComponent;
+    if (type.includes('project')) {
+      if (type.includes('created')) return 'FolderPlus';
+      if (type.includes('updated')) return 'Edit';
+      if (type.includes('deleted')) return 'FolderMinus';
+      return 'Folder';
+    }
+    if (type.includes('task')) {
+      if (type.includes('created')) return 'Plus';
+      if (type.includes('status')) return 'ArrowRight';
+      if (type.includes('assigned')) return 'User';
+      if (type.includes('completed')) return 'CheckCircle';
+      if (type.includes('priority')) return 'AlertTriangle';
+      if (type.includes('due_date')) return 'Calendar';
+      if (type.includes('deleted')) return 'Trash2';
+      return 'CheckSquare';
+    }
+    return 'Activity';
   };
 
-  const getActivityLink = (activity) => {
-    if (activity.entityType === 'project') {
-      return `/projects/${activity.entityId}/dashboard`;
-    } else if (activity.entityType === 'task' && activity.projectId) {
-      return `/projects/${activity.projectId}/board`;
-    }
-    return null;
+  const getActivityColor = (type) => {
+    if (type.includes('created')) return 'text-status-success';
+    if (type.includes('deleted')) return 'text-status-error';
+    if (type.includes('updated') || type.includes('status') || type.includes('assigned')) return 'text-primary';
+    if (type.includes('completed')) return 'text-status-success';
+    if (type.includes('priority')) return 'text-status-warning';
+    return 'text-surface-600';
   };
 
-  const formatTimestamp = (timestamp) => {
-    try {
-      const date = parseISO(timestamp);
-      return formatDistanceToNow(date, { addSuffix: true });
-    } catch {
-      return 'Recently';
-    }
-  };
+  const eventTypeOptions = [
+    { value: 'all', label: 'All Events' },
+    { value: 'project', label: 'Project Events' },
+    { value: 'task', label: 'Task Events' }
+  ];
+
+  const projectOptions = [
+    { value: 'all', label: 'All Projects' },
+    ...projects.map(p => ({ value: p.id, label: p.title }))
+  ];
+
+  const areFiltersActive = filters.eventType !== 'all' || filters.projectId !== 'all';
 
   if (loading) {
-    return <LoadingState message="Loading activity feed..." />;
+    return (
+      <div className="p-6">
+        <LoadingState title="Loading Activity Feed" />
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <ErrorState 
-        message="Failed to load activity feed"
-        onRetry={fetchData}
-      />
+      <div className="p-6">
+        <ErrorState 
+          title="Error Loading Activity Feed"
+          message={error}
+          onRetry={loadData}
+        />
+      </div>
     );
   }
 
-  const displayedActivities = activities.slice(0, displayCount);
-  const hasMore = displayCount < activities.length;
-
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-surface-900">Activity Feed</h1>
-          <p className="text-surface-600 mt-1">Track all recent updates and changes</p>
-        </div>
+    <div className="p-6 max-w-full">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-6"
+      >
+        <h1 className="text-2xl font-bold text-surface-900 mb-6">Activity Feed</h1>
         
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-wrap gap-4 mb-6">
           <Select
             value={filters.eventType}
-            onChange={(e) => handleFilterChange('eventType', e.target.value)}
-            className="min-w-[140px]"
-          >
-            {Object.entries(ACTIVITY_TYPES).map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
-            ))}
-          </Select>
-          
+            onChange={(e) => setFilters(prev => ({ ...prev, eventType: e.target.value }))}
+            options={eventTypeOptions}
+          />
           <Select
             value={filters.projectId}
-            onChange={(e) => handleFilterChange('projectId', e.target.value)}
-            className="min-w-[160px]"
-          >
-            <option value="all">All Projects</option>
-            {projects.map(project => (
-              <option key={project.id} value={project.id}>{project.title}</option>
-            ))}
-          </Select>
+            onChange={(e) => setFilters(prev => ({ ...prev, projectId: e.target.value }))}
+            options={projectOptions}
+          />
+          {areFiltersActive && (
+            <button
+              onClick={() => setFilters({ eventType: 'all', projectId: 'all' })}
+              className="text-primary hover:text-primary-dark text-sm"
+            >
+              Clear Filters
+            </button>
+          )}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Activity List */}
-      {displayedActivities.length === 0 ? (
-        <EmptyState
-          icon={Clock}
-          title="No Activities"
-          description="No activities match your current filters. Try adjusting the filters above."
-        />
+      {activities.length === 0 ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-12 bg-surface-50 rounded-lg"
+        >
+          <ApperIcon name="Activity" size={48} className="text-surface-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-surface-900 mb-2">No Activity Yet</h3>
+          <p className="text-surface-600">
+            {areFiltersActive ? "No activities match your current filters" : "Activity will appear here as you work on projects and tasks"}
+          </p>
+        </motion.div>
       ) : (
         <div className="space-y-4">
-          {displayedActivities.map((activity) => {
-            const IconComponent = getActivityIcon(activity.type);
-            const iconColorClass = ACTIVITY_COLORS[activity.type] || 'text-surface-600 bg-surface-100';
-            const activityLink = getActivityLink(activity);
-
-            return (
-              <Card key={activity.id} className="p-4 hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-4">
-                  {/* Activity Icon */}
-                  <div className={`flex-shrink-0 p-2 rounded-lg ${iconColorClass}`}>
-                    <IconComponent className="w-5 h-5" />
+          {activities.map((activity, index) => (
+            <motion.div
+              key={activity.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="bg-white rounded-lg p-4 shadow-sm border border-surface-100 hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-start space-x-3">
+                <div className={`flex-shrink-0 p-2 rounded-lg bg-surface-50 ${getActivityColor(activity.type)}`}>
+                  <ApperIcon name={getActivityIcon(activity.type)} size={18} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-medium text-surface-900">{activity.title}</h3>
+                    <span className="text-sm text-surface-500">
+                      {format(new Date(activity.timestamp), 'MMM dd, yyyy HH:mm')}
+                    </span>
                   </div>
-
-                  {/* Activity Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-surface-900 mb-1">
-                          {activity.title}
-                        </h3>
-                        <p className="text-surface-600 text-sm mb-2">
-                          {activity.description}
-                        </p>
-                        
-                        {/* Activity Meta */}
-                        <div className="flex flex-wrap items-center gap-4 text-xs text-surface-500">
-                          <div className="flex items-center gap-1">
-                            <User className="w-3 h-3" />
-                            <span>{activity.userName}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            <span>{formatTimestamp(activity.timestamp)}</span>
-                          </div>
-{activity.projectTitle && (
-                            <div className="flex items-center gap-1">
-                              <Folder className="w-3 h-3" />
-                              <span>{activity.projectTitle}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Action Link */}
-                      {activityLink && (
-                        <Link
-                          to={activityLink}
-                          className="flex-shrink-0 text-primary hover:text-primary/80 text-sm font-medium transition-colors"
-                        >
-                          View →
-                        </Link>
-                      )}
-                    </div>
+                  <p className="text-surface-600 mb-2">{activity.description}</p>
+                  <div className="flex items-center space-x-4 text-sm text-surface-500">
+                    <span className="flex items-center space-x-1">
+                      <ApperIcon name="User" size={14} />
+                      <span>{activity.userName}</span>
+                    </span>
+                    {activity.projectTitle && (
+                      <span className="flex items-center space-x-1">
+                        <ApperIcon name="Folder" size={14} />
+                        <span>{activity.projectTitle}</span>
+                      </span>
+                    )}
                   </div>
                 </div>
-              </Card>
-            );
-          })}
-
-          {/* Load More Button */}
-          {hasMore && (
-            <div className="text-center pt-4">
-              <Button
-                variant="outline"
-                onClick={loadMore}
-                className="px-6"
-              >
-                Load More Activities
-              </Button>
-            </div>
-          )}
+              </div>
+            </motion.div>
+          ))}
         </div>
       )}
     </div>
   );
-}
+};
 
 export default ActivityFeedPage;
