@@ -1,0 +1,173 @@
+[
+  {
+    "id": "1",
+    "type": "project_created",
+    "title": "Project Created",
+    "description": "New project 'Website Redesign' was created",
+    "entityType": "project",
+    "entityId": "1",
+    "entityTitle": "Website Redesign",
+    "userId": "user1",
+    "userName": "Sarah Chen",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "metadata": {
+      "projectName": "Website Redesign"
+    }
+  },
+  {
+    "id": "2",
+    "type": "task_created",
+    "title": "Task Added",
+    "description": "Task 'Design Homepage Mockup' was added to project 'Website Redesign'",
+    "entityType": "task",
+    "entityId": "1",
+    "entityTitle": "Design Homepage Mockup",
+    "projectId": "1",
+    "projectTitle": "Website Redesign",
+    "userId": "user1",
+    "userName": "Sarah Chen",
+    "timestamp": "2024-01-15T11:15:00Z",
+    "metadata": {
+      "taskTitle": "Design Homepage Mockup",
+      "priority": "high"
+    }
+  },
+  {
+    "id": "3",
+    "type": "task_status_changed",
+    "title": "Task Status Updated",
+    "description": "Task 'Setup Development Environment' status changed from 'To Do' to 'In Progress'",
+    "entityType": "task",
+    "entityId": "2",
+    "entityTitle": "Setup Development Environment",
+    "projectId": "1",
+    "projectTitle": "Website Redesign",
+    "userId": "user2",
+    "userName": "Mike Johnson",
+    "timestamp": "2024-01-15T14:22:00Z",
+    "metadata": {
+      "oldStatus": "todo",
+      "newStatus": "inProgress"
+    }
+  },
+  {
+    "id": "4",
+    "type": "task_assigned",
+    "title": "Task Assigned",
+    "description": "Task 'Create User Interface Components' was assigned to Alex Rodriguez",
+    "entityType": "task",
+    "entityId": "3",
+    "entityTitle": "Create User Interface Components",
+    "projectId": "1",
+    "projectTitle": "Website Redesign",
+    "userId": "user1",
+    "userName": "Sarah Chen",
+    "timestamp": "2024-01-14T16:45:00Z",
+    "metadata": {
+      "assignedTo": "Alex Rodriguez",
+      "assignedToId": "user3"
+    }
+  },
+  {
+    "id": "5",
+    "type": "project_created",
+    "title": "Project Created",
+    "description": "New project 'Mobile App Development' was created",
+    "entityType": "project",
+    "entityId": "2",
+    "entityTitle": "Mobile App Development",
+    "userId": "user2",
+    "userName": "Mike Johnson",
+    "timestamp": "2024-01-14T09:30:00Z",
+    "metadata": {
+      "projectName": "Mobile App Development"
+    }
+  },
+  {
+    "id": "6",
+    "type": "task_completed",
+    "title": "Task Completed",
+    "description": "Task 'Write Project Requirements' was marked as completed",
+    "entityType": "task",
+    "entityId": "4",
+    "entityTitle": "Write Project Requirements",
+    "projectId": "2",
+    "projectTitle": "Mobile App Development",
+    "userId": "user3",
+    "userName": "Alex Rodriguez",
+    "timestamp": "2024-01-13T17:20:00Z",
+    "metadata": {
+      "oldStatus": "inProgress",
+      "newStatus": "done"
+    }
+  },
+  {
+    "id": "7",
+    "type": "task_priority_changed",
+    "title": "Task Priority Updated",
+    "description": "Task 'Database Schema Design' priority changed from 'Medium' to 'High'",
+    "entityType": "task",
+    "entityId": "5",
+    "entityTitle": "Database Schema Design",
+    "projectId": "2",
+    "projectTitle": "Mobile App Development",
+    "userId": "user2",
+    "userName": "Mike Johnson",
+    "timestamp": "2024-01-13T15:10:00Z",
+    "metadata": {
+      "oldPriority": "medium",
+      "newPriority": "high"
+    }
+  },
+  {
+    "id": "8",
+    "type": "project_updated",
+    "title": "Project Updated",
+    "description": "Project 'Website Redesign' details were updated",
+    "entityType": "project",
+    "entityId": "1",
+    "entityTitle": "Website Redesign",
+    "userId": "user1",
+    "userName": "Sarah Chen",
+    "timestamp": "2024-01-12T13:25:00Z",
+    "metadata": {
+      "updatedFields": ["description", "endDate"]
+    }
+  },
+  {
+    "id": "9",
+    "type": "task_created",
+    "title": "Task Added",
+    "description": "Task 'API Integration Testing' was added to project 'Mobile App Development'",
+    "entityType": "task",
+    "entityId": "6",
+    "entityTitle": "API Integration Testing",
+    "projectId": "2",
+    "projectTitle": "Mobile App Development",
+    "userId": "user3",
+    "userName": "Alex Rodriguez",
+    "timestamp": "2024-01-12T11:40:00Z",
+    "metadata": {
+      "taskTitle": "API Integration Testing",
+      "priority": "medium"
+    }
+  },
+  {
+    "id": "10",
+    "type": "task_due_date_changed",
+    "title": "Task Due Date Updated",
+    "description": "Task 'Design Homepage Mockup' due date was updated",
+    "entityType": "task",
+    "entityId": "1",
+    "entityTitle": "Design Homepage Mockup",
+    "projectId": "1",
+    "projectTitle": "Website Redesign",
+    "userId": "user1",
+    "userName": "Sarah Chen",
+    "timestamp": "2024-01-11T16:15:00Z",
+    "metadata": {
+      "oldDueDate": "2024-01-20",
+      "newDueDate": "2024-01-18"
+    }
+  }
+]
