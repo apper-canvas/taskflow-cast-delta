@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { Plus } from 'lucide-react';
 import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 import TaskModal from '@/components/organisms/TaskModal';
 import TaskList from '@/components/organisms/TaskList';
 import LoadingState from '@/components/organisms/LoadingState';
@@ -15,6 +17,7 @@ const MyTasksPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [editingTask, setEditingTask] = useState(null);
+  const [isCreatingTask, setIsCreatingTask] = useState(false);
   const [filters, setFilters] = useState({
     status: 'all',
     priority: 'all',
@@ -40,6 +43,17 @@ const MyTasksPage = () => {
       toast.error('Failed to load tasks');
     } finally {
       setLoading(false);
+    }
+};
+
+  const handleCreateTask = async (taskData) => {
+    try {
+      const newTask = await taskService.create(taskData);
+      setTasks(prev => [newTask, ...prev]);
+      setIsCreatingTask(false);
+      toast.success('Task created successfully');
+    } catch (err) {
+      toast.error('Failed to create task');
     }
   };
 
@@ -99,16 +113,26 @@ const MyTasksPage = () => {
     );
   }
 
-  return (
+return (
     <div className="p-6 max-w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <h1 className="text-2xl font-bold text-surface-900 mb-4">My Tasks</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h1 className="text-2xl font-bold text-surface-900">My Tasks</h1>
+          <Button
+            onClick={() => setIsCreatingTask(true)}
+            variant="primary"
+            className="inline-flex items-center gap-2 px-4 py-2 whitespace-nowrap"
+            aria-label="Add new task"
+          >
+            <Plus className="w-4 h-4" />
+            Add Task
+          </Button>
+        </div>
       </motion.div>
-
       <TaskList
         tasks={filteredTasks}
         projects={projects}
@@ -117,7 +141,18 @@ const MyTasksPage = () => {
         onEdit={setEditingTask}
         onDelete={handleDeleteTask}
       />
+{/* Create Task Modal */}
+      {isCreatingTask && (
+        <TaskModal
+          isOpen={isCreatingTask}
+          onClose={() => setIsCreatingTask(false)}
+          onSubmit={handleCreateTask}
+          title="Create New Task"
+          initialData={null}
+        />
+      )}
 
+      {/* Edit Task Modal */}
       {editingTask && (
         <TaskModal
           isOpen={!!editingTask}
