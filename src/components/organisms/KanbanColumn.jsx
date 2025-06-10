@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import TaskCard from './TaskCard';
-import ApperIcon from './ApperIcon';
+import TaskCard from '@/components/molecules/TaskCard';
+import ApperIcon from '@/components/ApperIcon';
 
 const KanbanColumn = ({ 
   column, 

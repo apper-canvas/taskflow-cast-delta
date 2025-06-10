@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout';
-import Home from './pages/Home';
-import Projects from './pages/Projects';
-import KanbanBoard from './pages/KanbanBoard';
-import ProjectDashboard from './pages/ProjectDashboard';
-import MyTasks from './pages/MyTasks';
-import NotFound from './pages/NotFound';
+import HomePage from '@/components/pages/HomePage';
+import ProjectsPage from '@/components/pages/ProjectsPage';
+import KanbanBoardPage from '@/components/pages/KanbanBoardPage';
+import ProjectDashboardPage from '@/components/pages/ProjectDashboardPage';
+import MyTasksPage from '@/components/pages/MyTasksPage';
+import NotFoundPage from '@/components/pages/NotFoundPage';
 
 function App() {
   return (
@@ -15,12 +15,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/projects" replace />} />
-            <Route path="home" element={<Home />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="projects/:projectId/board" element={<KanbanBoard />} />
-            <Route path="projects/:projectId/dashboard" element={<ProjectDashboard />} />
-            <Route path="my-tasks" element={<MyTasks />} />
-            <Route path="*" element={<NotFound />} />
+<Route path="home" element={<HomePage />} />
+            <Route path="projects" element={<ProjectsPage />} />
+            <Route path="projects/:projectId/board" element={<KanbanBoardPage />} />
+            <Route path="projects/:projectId/dashboard" element={<ProjectDashboardPage />} />
+            <Route path="my-tasks" element={<MyTasksPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
         

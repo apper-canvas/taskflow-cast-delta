@@ -1,6 +1,9 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
+import TaskDetailsItem from '@/components/molecules/TaskDetailsItem';
 
 const TaskCard = ({ 
   task, 
@@ -28,6 +31,12 @@ const TaskCard = ({
     low: 'bg-priority-low text-white'
   };
 
+  const statusColors = {
+    done: 'bg-green-100 text-green-800',
+    inProgress: 'bg-yellow-100 text-yellow-800',
+    todo: 'bg-blue-100 text-blue-800',
+  };
+
   return (
     <motion.div
       layout
@@ -51,28 +60,30 @@ const TaskCard = ({
         {(onEdit || onDelete) && (
           <div className="flex space-x-1">
             {onEdit && (
-              <button
+              <Button
+                variant="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit();
                 }}
-                className="p-1 text-surface-400 hover:text-surface-600 transition-colors"
+                className="text-surface-400 hover:text-surface-600"
                 draggable={false}
               >
                 <ApperIcon name="Edit2" size={14} />
-              </button>
+              </Button>
             )}
             {onDelete && (
-              <button
+              <Button
+                variant="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete();
                 }}
-                className="p-1 text-surface-400 hover:text-status-error transition-colors"
+                className="text-surface-400 hover:text-status-error"
                 draggable={false}
               >
                 <ApperIcon name="Trash2" size={14} />
-              </button>
+              </Button>
             )}
           </div>
         )}
@@ -86,23 +97,24 @@ const TaskCard = ({
 
       <div className="space-y-2 mb-3">
         {task.assignee && (
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center">
-              <span className="text-xs text-white font-medium">
-                {task.assignee.split(' ').map(n => n[0]).join('')}
-              </span>
-            </div>
-            <span className="text-sm text-surface-600">{task.assignee}</span>
-          </div>
+          <TaskDetailsItem icon="User" label="Assignee">
+             <div className="flex items-center space-x-1">
+               <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center">
+                 <span className="text-xs text-white font-medium">
+                   {task.assignee.split(' ').map(n => n[0]).join('')}
+                 </span>
+               </div>
+               <span className="text-sm text-surface-600">{task.assignee}</span>
+             </div>
+          </TaskDetailsItem>
         )}
 
         {task.dueDate && (
-          <div className="flex items-center space-x-2">
-            <ApperIcon name="Calendar" size={14} className="text-surface-400" />
-            <span className="text-xs text-surface-600">
+          <TaskDetailsItem icon="Calendar" label="Due">
+            <span className="text-sm text-surface-600">
               {format(new Date(task.dueDate), 'MMM dd')}
             </span>
-          </div>
+          </TaskDetailsItem>
         )}
       </div>
 
@@ -115,7 +127,7 @@ const TaskCard = ({
 
         <div className="flex items-center space-x-1">
           <ApperIcon name="MessageCircle" size={14} className="text-surface-400" />
-          <span className="text-xs text-surface-500">0</span>
+          <span className="text-xs text-surface-500">0</span> {/* Placeholder for comments */}
         </div>
       </div>
     </motion.div>

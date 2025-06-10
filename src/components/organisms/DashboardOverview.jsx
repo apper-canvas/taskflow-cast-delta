@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import ApperIcon from './ApperIcon';
-import ProjectCard from './ProjectCard';
-import projectService from '../services/api/projectService';
-import taskService from '../services/api/taskService';
+import ApperIcon from '@/components/ApperIcon';
+import ProjectCard from '@/components/molecules/ProjectCard';
+import projectService from '@/services/api/projectService';
+import taskService from '@/services/api/taskService';
+import LoadingState from '@/components/organisms/LoadingState';
+import Button from '@/components/atoms/Button';
+import TaskDetailsItem from '@/components/molecules/TaskDetailsItem';
+import { format } from 'date-fns';
 
-const MainFeature = () => {
+const DashboardOverview = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [recentTasks, setRecentTasks] = useState([]);
@@ -51,17 +55,7 @@ const MainFeature = () => {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-white rounded-lg p-6 shadow-sm animate-pulse">
-              <div className="h-6 bg-surface-200 rounded w-3/4 mb-4"></div>
-              <div className="h-4 bg-surface-200 rounded w-full mb-2"></div>
-              <div className="h-4 bg-surface-200 rounded w-2/3"></div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <LoadingState title="Loading Dashboard Data" />
     );
   }
 
@@ -71,12 +65,12 @@ const MainFeature = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-surface-900">Recent Projects</h2>
-          <button
+          <Button
+            variant="text"
             onClick={() => navigate('/projects')}
-            className="text-primary hover:text-primary/80 transition-colors"
           >
             View All
-          </button>
+          </Button>
         </div>
         
         {projects.length > 0 ? (
@@ -100,12 +94,13 @@ const MainFeature = () => {
           <div className="text-center py-8 bg-surface-50 rounded-lg">
             <ApperIcon name="FolderOpen" size={32} className="text-surface-300 mx-auto mb-2" />
             <p className="text-surface-600">No projects yet</p>
-            <button
+            <Button
+              variant="text"
               onClick={() => navigate('/projects')}
-              className="mt-2 text-primary hover:text-primary/80 transition-colors"
+              className="mt-2"
             >
               Create your first project
-            </button>
+            </Button>
           </div>
         )}
       </section>
@@ -114,12 +109,12 @@ const MainFeature = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-surface-900">Recent Tasks</h2>
-          <button
+          <Button
+            variant="text"
             onClick={() => navigate('/my-tasks')}
-            className="text-primary hover:text-primary/80 transition-colors"
           >
             View All
-          </button>
+          </Button>
         </div>
         
         {recentTasks.length > 0 ? (
@@ -136,8 +131,13 @@ const MainFeature = () => {
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-surface-900 truncate">{task.title}</h3>
                     <p className="text-sm text-surface-600">
-                      {projects.find(p => p.id === task.projectId)?.title || 'Unknown Project'}
+                      Project: {projects.find(p => p.id === task.projectId)?.title || 'Unknown Project'}
                     </p>
+                    {task.dueDate && (
+                      <TaskDetailsItem icon="Calendar" label="Due" className="mt-1">
+                        {format(new Date(task.dueDate), 'MMM dd, yyyy')}
+                      </TaskDetailsItem>
+                    )}
                   </div>
                   <div className="flex items-center space-x-2 ml-4">
                     <div className={`px-2 py-1 rounded text-xs font-medium ${
@@ -171,4 +171,4 @@ const MainFeature = () => {
   );
 };
 
-export default MainFeature;
+export default DashboardOverview;

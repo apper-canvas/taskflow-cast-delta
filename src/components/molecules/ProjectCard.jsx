@@ -1,6 +1,9 @@
-import { motion } from 'framer-motion';
+import React from 'react';
 import { format } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Card from '@/components/atoms/Card';
+import Button from '@/components/atoms/Button';
+import ProgressBar from '@/components/atoms/ProgressBar';
 
 const ProjectCard = ({ 
   project, 
@@ -14,35 +17,36 @@ const ProjectCard = ({
     : 0;
 
   return (
-    <motion.div
-      whileHover={{ translateY: -2 }}
-      className="bg-white rounded-lg p-6 shadow-sm border border-surface-100 hover:shadow-md transition-all duration-200"
-    >
+    <Card>
       <div className="flex items-start justify-between mb-4">
-        <h3 className="text-lg font-semibold text-surface-900 break-words">{project.title}</h3>
+        <h3 className="text-lg font-semibold text-surface-900 break-words flex-1 pr-2">
+          {project.title}
+        </h3>
         {(onEdit || onDelete) && (
           <div className="flex space-x-1 ml-2">
             {onEdit && (
-              <button
+              <Button
+                variant="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit();
                 }}
-                className="p-1 text-surface-400 hover:text-surface-600 transition-colors"
+                className="text-surface-400 hover:text-surface-600"
               >
                 <ApperIcon name="Edit2" size={16} />
-              </button>
+              </Button>
             )}
             {onDelete && (
-              <button
+              <Button
+                variant="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete();
                 }}
-                className="p-1 text-surface-400 hover:text-status-error transition-colors"
+                className="text-surface-400 hover:text-status-error"
               >
                 <ApperIcon name="Trash2" size={16} />
-              </button>
+              </Button>
             )}
           </div>
         )}
@@ -60,14 +64,7 @@ const ProjectCard = ({
           <span className="font-medium text-surface-700">{completionPercentage}%</span>
         </div>
         
-        <div className="w-full bg-surface-200 rounded-full h-2">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${completionPercentage}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="bg-status-success h-2 rounded-full"
-          />
-        </div>
+        <ProgressBar percentage={completionPercentage} />
 
         <div className="grid grid-cols-3 gap-2 text-xs">
           <div className="text-center">
@@ -98,34 +95,28 @@ const ProjectCard = ({
 
       <div className="flex space-x-2">
         {onOpenBoard && (
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <Button
+            variant="primary"
             onClick={onOpenBoard}
-            className="flex-1 px-3 py-2 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 transition-colors"
+            className="flex-1 text-sm"
           >
-            <div className="flex items-center justify-center space-x-1">
-              <ApperIcon name="Kanban" size={14} />
-              <span>Board</span>
-            </div>
-          </motion.button>
+            <ApperIcon name="Kanban" size={14} />
+            <span>Board</span>
+          </Button>
         )}
         
         {onOpenDashboard && (
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <Button
+            variant="light"
             onClick={onOpenDashboard}
-            className="flex-1 px-3 py-2 bg-surface-100 text-surface-700 text-sm rounded-lg hover:bg-surface-200 transition-colors"
+            className="flex-1 text-sm"
           >
-            <div className="flex items-center justify-center space-x-1">
-              <ApperIcon name="BarChart3" size={14} />
-              <span>Dashboard</span>
-            </div>
-          </motion.button>
+            <ApperIcon name="BarChart3" size={14} />
+            <span>Dashboard</span>
+          </Button>
         )}
       </div>
-    </motion.div>
+    </Card>
   );
 };
 

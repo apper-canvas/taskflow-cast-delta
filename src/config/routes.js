@@ -1,6 +1,6 @@
-import Home from '../pages/Home';
-import Projects from '../pages/Projects';
-import MyTasks from '../pages/MyTasks';
+import HomePage from '@/components/pages/HomePage';
+import ProjectsPage from '@/components/pages/ProjectsPage';
+import MyTasksPage from '@/components/pages/MyTasksPage';
 
 export const routes = {
   home: {
@@ -8,21 +8,21 @@ export const routes = {
     label: 'Home',
     path: '/home',
     icon: 'Home',
-    component: Home
+component: HomePage
   },
   projects: {
     id: 'projects',
     label: 'Projects',
     path: '/projects',
     icon: 'FolderOpen',
-    component: Projects
+component: ProjectsPage
   },
   myTasks: {
     id: 'myTasks',
     label: 'My Tasks',
     path: '/my-tasks',
     icon: 'CheckSquare',
-    component: MyTasks
+component: MyTasksPage
   }
 };
 

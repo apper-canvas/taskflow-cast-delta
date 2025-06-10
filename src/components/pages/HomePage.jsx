@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import ApperIcon from '../components/ApperIcon';
-import projectService from '../services/api/projectService';
-import taskService from '../services/api/taskService';
+import ApperIcon from '@/components/ApperIcon';
+import projectService from '@/services/api/projectService';
+import taskService from '@/services/api/taskService';
+import StatCard from '@/components/molecules/StatCard';
+import DashboardOverview from '@/components/organisms/DashboardOverview';
+import LoadingState from '@/components/organisms/LoadingState';
+import Card from '@/components/atoms/Card';
+import Button from '@/components/atoms/Button';
 
-const Home = () => {
+const HomePage = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalProjects: 0,
@@ -82,17 +87,14 @@ const Home = () => {
   if (loading) {
     return (
       <div className="p-6">
-        <div className="mb-8">
-          <div className="h-8 bg-surface-200 rounded w-64 mb-2 animate-pulse"></div>
-          <div className="h-4 bg-surface-200 rounded w-96 animate-pulse"></div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <LoadingState />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white rounded-lg p-6 shadow-sm animate-pulse">
+            <Card key={i} className="animate-pulse">
               <div className="h-12 w-12 bg-surface-200 rounded-lg mb-4"></div>
               <div className="h-6 bg-surface-200 rounded w-16 mb-2"></div>
               <div className="h-4 bg-surface-200 rounded w-24"></div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
@@ -112,55 +114,49 @@ const Home = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {statCards.map((card, index) => (
-          <motion.div
+          <StatCard
             key={card.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, translateY: -2 }}
-            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-surface-100"
+            title={card.title}
+            value={card.value}
+            icon={card.icon}
+            colorClass={card.color}
             onClick={card.action}
-          >
-            <div className={`w-12 h-12 ${card.color} rounded-lg flex items-center justify-center mb-4`}>
-              <ApperIcon name={card.icon} size={24} className="text-white" />
-            </div>
-            <div className="text-2xl font-bold text-surface-900 mb-1">{card.value}</div>
-            <div className="text-sm text-surface-600">{card.title}</div>
-          </motion.div>
+            delay={index * 0.1}
+          />
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <motion.div
+        <Card
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white rounded-lg p-6 shadow-sm border border-surface-100"
         >
           <h3 className="text-lg font-semibold text-surface-900 mb-4">Quick Actions</h3>
           <div className="space-y-3">
-            <button
+            <Button
+              variant="text"
               onClick={() => navigate('/projects')}
-              className="w-full flex items-center space-x-3 p-3 text-left hover:bg-surface-50 rounded-lg transition-colors"
+              className="w-full justify-start !p-3"
             >
               <ApperIcon name="Plus" size={18} className="text-primary" />
               <span className="text-surface-700">Create New Project</span>
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="text"
               onClick={() => navigate('/my-tasks')}
-              className="w-full flex items-center space-x-3 p-3 text-left hover:bg-surface-50 rounded-lg transition-colors"
+              className="w-full justify-start !p-3"
             >
               <ApperIcon name="ListTodo" size={18} className="text-secondary" />
               <span className="text-surface-700">View All Tasks</span>
-            </button>
+            </Button>
           </div>
-        </motion.div>
+        </Card>
 
-        <motion.div
+        <Card
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white rounded-lg p-6 shadow-sm border border-surface-100"
         >
           <h3 className="text-lg font-semibold text-surface-900 mb-4">Tips</h3>
           <div className="space-y-3 text-sm text-surface-600">
@@ -177,10 +173,12 @@ const Home = () => {
               <span>Assign tasks to team members for better collaboration</span>
             </div>
           </div>
-        </motion.div>
+        </Card>
       </div>
+
+      <DashboardOverview />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;

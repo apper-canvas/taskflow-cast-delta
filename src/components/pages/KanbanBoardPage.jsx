@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '../components/ApperIcon';
-import TaskCard from '../components/TaskCard';
-import TaskModal from '../components/TaskModal';
-import KanbanColumn from '../components/KanbanColumn';
-import projectService from '../services/api/projectService';
-import taskService from '../services/api/taskService';
+import ApperIcon from '@/components/ApperIcon';
+import KanbanColumn from '@/components/organisms/KanbanColumn';
+import TaskModal from '@/components/organisms/TaskModal';
+import projectService from '@/services/api/projectService';
+import taskService from '@/services/api/taskService';
+import LoadingState from '@/components/organisms/LoadingState';
+import ErrorState from '@/components/organisms/ErrorState';
+import Button from '@/components/atoms/Button';
 
-const KanbanBoard = () => {
+const KanbanBoardPage = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
@@ -114,20 +116,14 @@ const KanbanBoard = () => {
   if (loading) {
     return (
       <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="h-6 w-6 bg-surface-200 rounded animate-pulse"></div>
-            <div className="h-8 bg-surface-200 rounded w-48 animate-pulse"></div>
-          </div>
-          <div className="h-10 bg-surface-200 rounded w-32 animate-pulse"></div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <LoadingState title="Loading Kanban Board" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-surface-50 rounded-lg p-4">
-              <div className="h-6 bg-surface-200 rounded w-24 mb-4 animate-pulse"></div>
+            <div key={i} className="bg-surface-50 rounded-lg p-4 animate-pulse">
+              <div className="h-6 bg-surface-200 rounded w-24 mb-4"></div>
               <div className="space-y-3">
                 {[...Array(3)].map((_, j) => (
-                  <div key={j} className="bg-white rounded-lg p-4 shadow-sm animate-pulse">
+                  <div key={j} className="bg-white rounded-lg p-4 shadow-sm">
                     <div className="h-4 bg-surface-200 rounded w-3/4 mb-2"></div>
                     <div className="h-3 bg-surface-200 rounded w-1/2"></div>
                   </div>
@@ -143,25 +139,13 @@ const KanbanBoard = () => {
   if (error || !project) {
     return (
       <div className="p-6">
-        <div className="text-center py-12">
-          <ApperIcon name="AlertCircle" size={48} className="text-status-error mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-surface-900 mb-2">Error Loading Project</h3>
-          <p className="text-surface-600 mb-4">{error || 'Project not found'}</p>
-          <div className="space-x-4">
-            <button
-              onClick={loadProjectData}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              Try Again
-            </button>
-            <button
-              onClick={() => navigate('/projects')}
-              className="px-4 py-2 bg-surface-200 text-surface-700 rounded-lg hover:bg-surface-300 transition-colors"
-            >
-              Back to Projects
-            </button>
-          </div>
-        </div>
+        <ErrorState 
+          title="Error Loading Project"
+          message={error || 'Project not found'}
+          onRetry={loadProjectData}
+          onBack={() => navigate('/projects')}
+          backText="Back to Projects"
+        />
       </div>
     );
   }
@@ -170,34 +154,33 @@ const KanbanBoard = () => {
     <div className="p-6 max-w-full h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
-          <button
+          <Button
+            variant="icon"
             onClick={() => navigate('/projects')}
-            className="p-2 hover:bg-surface-100 rounded-lg transition-colors"
+            className="text-surface-600"
           >
-            <ApperIcon name="ArrowLeft" size={20} className="text-surface-600" />
-          </button>
+            <ApperIcon name="ArrowLeft" size={20} />
+          </Button>
           <div>
             <h1 className="text-2xl font-bold text-surface-900">{project.title}</h1>
             <p className="text-surface-600">Kanban Board</p>
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <button
+          <Button
+            variant="light"
             onClick={() => navigate(`/projects/${projectId}/dashboard`)}
-            className="flex items-center space-x-2 px-4 py-2 bg-surface-100 text-surface-700 rounded-lg hover:bg-surface-200 transition-colors"
           >
             <ApperIcon name="BarChart3" size={18} />
             <span>Dashboard</span>
-          </button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          </Button>
+          <Button
+            variant="primary"
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
           >
             <ApperIcon name="Plus" size={18} />
             <span>Add Task</span>
-          </motion.button>
+          </Button>
         </div>
       </div>
 
@@ -243,4 +226,4 @@ const KanbanBoard = () => {
   );
 };
 
-export default KanbanBoard;
+export default KanbanBoardPage;
