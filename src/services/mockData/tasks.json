@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "projectId": "1",
+    "title": "User Research & Analysis",
+    "description": "Conduct comprehensive user research including surveys, interviews, and usability testing to understand current pain points and user needs.",
+    "assignee": "Sarah Johnson",
+    "dueDate": "2024-02-15T17:00:00.000Z",
+    "priority": "high",
+    "status": "done",
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-02-10T14:30:00.000Z"
+  },
+  {
+    "id": "2", 
+    "projectId": "1",
+    "title": "Wireframe Creation",
+    "description": "Create detailed wireframes for all main pages including homepage, product listings, product details, checkout flow, and user account pages.",
+    "assignee": "Mike Chen",
+    "dueDate": "2024-03-01T17:00:00.000Z",
+    "priority": "high",
+    "status": "inProgress",
+    "createdAt": "2024-02-01T09:15:00.000Z",
+    "updatedAt": "2024-02-25T11:20:00.000Z"
+  },
+  {
+    "id": "3",
+    "projectId": "1", 
+    "title": "Frontend Development Setup",
+    "description": "Set up the development environment, configure build tools, establish coding standards, and create the basic project structure with component library.",
+    "assignee": "Alex Rivera", 
+    "dueDate": "2024-03-15T17:00:00.000Z",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2024-02-10T13:45:00.000Z",
+    "updatedAt": "2024-02-10T13:45:00.000Z"
+  },
+  {
+    "id": "4",
+    "projectId": "2",
+    "title": "iOS App Architecture Planning",
+    "description": "Design the overall architecture for the iOS application including navigation flow, data management, and integration points with the backend API.",
+    "assignee": "Emma Wilson",
+    "dueDate": "2024-02-20T17:00:00.000Z", 
+    "priority": "high",
+    "status": "inProgress",
+    "createdAt": "2024-02-01T10:30:00.000Z",
+    "updatedAt": "2024-02-15T16:10:00.000Z"
+  },
+  {
+    "id": "5",
+    "projectId": "2",
+    "title": "Authentication Module",
+    "description": "Implement user authentication system with social login options, biometric authentication, and secure token management for both iOS and Android platforms.",
+    "assignee": "David Park",
+    "dueDate": "2024-03-30T17:00:00.000Z",
+    "priority": "high", 
+    "status": "todo",
+    "createdAt": "2024-02-15T14:20:00.000Z",
+    "updatedAt": "2024-02-15T14:20:00.000Z"
+  },
+  {
+    "id": "6",
+    "projectId": "3",
+    "title": "Content Calendar Planning",
+    "description": "Develop a comprehensive content calendar for Q2 including blog posts, social media content, email campaigns, and promotional materials aligned with campaign goals.",
+    "assignee": "Lisa Martinez",
+    "dueDate": "2024-03-25T17:00:00.000Z",
+    "priority": "medium",
+    "status": "todo", 
+    "createdAt": "2024-03-15T09:45:00.000Z",
+    "updatedAt": "2024-03-15T09:45:00.000Z"
+  },
+  {
+    "id": "7",
+    "projectId": "3",
+    "title": "Social Media Strategy",
+    "description": "Create detailed social media strategy including platform-specific content plans, posting schedules, influencer partnerships, and engagement tactics.",
+    "assignee": "Tom Rodriguez",
+    "dueDate": "2024-04-10T17:00:00.000Z",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2024-03-20T11:15:00.000Z", 
+    "updatedAt": "2024-03-20T11:15:00.000Z"
+  },
+  {
+    "id": "8",
+    "projectId": "4",
+    "title": "API Documentation Review",
+    "description": "Review and analyze documentation for all third-party APIs to be integrated, including rate limits, authentication methods, and data formats.",
+    "assignee": "Jennifer Kim",
+    "dueDate": "2024-03-10T17:00:00.000Z",
+    "priority": "low",
+    "status": "done",
+    "createdAt": "2024-03-01T08:30:00.000Z",
+    "updatedAt": "2024-03-08T15:45:00.000Z"
+  },
+  {
+    "id": "9",
+    "projectId": "4", 
+    "title": "Payment Gateway Integration",
+    "description": "Implement secure payment processing with multiple payment gateways including Stripe, PayPal, and Apple Pay with proper error handling and transaction logging.",
+    "assignee": "Kevin Zhang",
+    "dueDate": "2024-04-15T17:00:00.000Z",
+    "priority": "high",
+    "status": "inProgress",
+    "createdAt": "2024-03-10T12:00:00.000Z",
+    "updatedAt": "2024-03-28T10:20:00.000Z"
+  },
+  {
+    "id": "10",
+    "projectId": "5",
+    "title": "Support Ticket System Design",
+    "description": "Design the user interface and workflow for the support ticket system including ticket creation, status tracking, priority levels, and automated responses.",
+    "assignee": "Rachel Lee",
+    "dueDate": "2024-05-20T17:00:00.000Z",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2024-05-01T10:15:00.000Z",
+    "updatedAt": "2024-05-01T10:15:00.000Z"
+  }
+]

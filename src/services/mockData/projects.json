@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "title": "E-commerce Platform Redesign",
+    "description": "Complete overhaul of the existing e-commerce platform with modern UI/UX design, improved performance, and mobile-first approach. This project aims to increase conversion rates and enhance user experience.",
+    "startDate": "2024-01-15T08:00:00.000Z",
+    "endDate": "2024-06-30T17:00:00.000Z",
+    "createdAt": "2024-01-10T10:30:00.000Z"
+  },
+  {
+    "id": "2", 
+    "title": "Mobile App Development",
+    "description": "Native iOS and Android app development for our main service platform. The app will include user authentication, real-time notifications, offline functionality, and seamless integration with our web platform.",
+    "startDate": "2024-02-01T09:00:00.000Z",
+    "endDate": "2024-08-15T18:00:00.000Z",
+    "createdAt": "2024-01-25T14:15:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "Marketing Campaign Q2",
+    "description": "Comprehensive digital marketing campaign for Q2 2024 including social media strategy, content creation, SEO optimization, and paid advertising across multiple platforms to drive brand awareness and lead generation.",
+    "startDate": "2024-04-01T08:00:00.000Z", 
+    "endDate": "2024-06-30T17:00:00.000Z",
+    "createdAt": "2024-03-15T11:45:00.000Z"
+  },
+  {
+    "id": "4",
+    "title": "API Integration System",
+    "description": "Development of a robust API integration system to connect with third-party services including payment gateways, shipping providers, and analytics platforms. Focus on security, performance, and scalability.",
+    "startDate": "2024-03-01T09:00:00.000Z",
+    "endDate": "2024-07-31T17:00:00.000Z", 
+    "createdAt": "2024-02-20T16:20:00.000Z"
+  },
+  {
+    "id": "5",
+    "title": "Customer Support Portal",
+    "description": "Build a comprehensive customer support portal with ticketing system, knowledge base, live chat integration, and customer feedback management. Designed to improve customer satisfaction and reduce support workload.",
+    "startDate": "2024-05-01T08:00:00.000Z",
+    "endDate": "2024-09-30T17:00:00.000Z",
+    "createdAt": "2024-04-10T09:30:00.000Z"
+  }
+]

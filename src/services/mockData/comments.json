@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "taskId": "1", 
+    "author": "Sarah Johnson",
+    "content": "Started the user interviews today. So far, the feedback about the current checkout process has been very insightful. Users are consistently mentioning that the number of steps feels too long.",
+    "timestamp": "2024-02-05T14:30:00.000Z"
+  },
+  {
+    "id": "2",
+    "taskId": "1",
+    "author": "Mike Chen", 
+    "content": "Great work on the research! The insights about the checkout process align with our analytics data showing high drop-off rates at step 3. This will definitely inform our wireframe decisions.",
+    "timestamp": "2024-02-06T09:15:00.000Z"
+  },
+  {
+    "id": "3",
+    "taskId": "2",
+    "author": "Mike Chen",
+    "content": "I've completed the wireframes for the homepage and product listing pages. Working on the checkout flow wireframes now, incorporating the feedback from Sarah's user research.",
+    "timestamp": "2024-02-25T11:20:00.000Z"
+  },
+  {
+    "id": "4", 
+    "taskId": "4",
+    "author": "Emma Wilson",
+    "content": "The architecture planning is progressing well. I'm focusing on creating a modular structure that will make it easier to maintain and scale the app in the future. Should have the initial draft ready by end of week.",
+    "timestamp": "2024-02-15T16:10:00.000Z"
+  },
+  {
+    "id": "5",
+    "taskId": "8",
+    "author": "Jennifer Kim",
+    "content": "Completed the API documentation review. Stripe and PayPal APIs are well-documented with clear rate limits. However, the shipping provider APIs have some inconsistencies that we'll need to handle carefully.",
+    "timestamp": "2024-03-08T15:45:00.000Z"
+  },
+  {
+    "id": "6",
+    "taskId": "9",
+    "author": "Kevin Zhang",
+    "content": "Payment gateway integration is going smoothly. Stripe integration is complete and tested. Working on PayPal integration now. Should have both ready for testing by next week.",
+    "timestamp": "2024-03-28T10:20:00.000Z"
+  },
+  {
+    "id": "7",
+    "taskId": "9",
+    "author": "Alex Rivera",
+    "content": "Kevin, make sure to implement proper error handling for failed transactions. We want to provide clear feedback to users when payments don't go through.",
+    "timestamp": "2024-03-29T14:45:00.000Z"
+  },
+  {
+    "id": "8",
+    "taskId": "2",
+    "author": "Sarah Johnson", 
+    "content": "The wireframes look great, Mike! The simplified checkout flow addresses all the pain points we identified in user research. This should significantly improve the conversion rate.",
+    "timestamp": "2024-02-26T08:30:00.000Z"
+  }
+]
