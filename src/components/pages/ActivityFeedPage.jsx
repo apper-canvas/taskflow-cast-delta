@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow, parseISO } from 'date-fns';
-import { Clock, Filter, Project, CheckSquare, FolderOpen, User, Calendar, AlertCircle, TrendingUp, Archive } from 'lucide-react';
+import { Clock, Filter, Folder, CheckSquare, FolderOpen, User, Calendar, AlertCircle, TrendingUp, Archive } from 'lucide-react';
 import Card from '@/components/atoms/Card';
 import Button from '@/components/atoms/Button';
 import Select from '@/components/atoms/Select';
@@ -207,9 +207,9 @@ function ActivityFeedPage() {
                             <Clock className="w-3 h-3" />
                             <span>{formatTimestamp(activity.timestamp)}</span>
                           </div>
-                          {activity.projectTitle && (
+{activity.projectTitle && (
                             <div className="flex items-center gap-1">
-                              <Project className="w-3 h-3" />
+                              <Folder className="w-3 h-3" />
                               <span>{activity.projectTitle}</span>
                             </div>
                           )}
