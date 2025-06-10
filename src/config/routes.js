@@ -24,12 +24,19 @@ myTasks: {
     icon: 'CheckSquare',
     component: MyTasksPage
   },
-  activity: {
+activity: {
     id: 'activity',
     label: 'Activity Feed',
     path: '/activity',
     icon: 'Clock',
     component: ActivityFeedPage
+  },
+  search: {
+    id: 'search',
+    label: 'Search',
+    path: '/search',
+    icon: 'Search',
+    component: null // Not shown in navigation, accessed via search bar
   }
 };
 

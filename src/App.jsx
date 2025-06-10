@@ -7,6 +7,7 @@ import KanbanBoardPage from '@/components/pages/KanbanBoardPage';
 import ProjectDashboardPage from '@/components/pages/ProjectDashboardPage';
 import MyTasksPage from '@/components/pages/MyTasksPage';
 import ActivityFeedPage from '@/components/pages/ActivityFeedPage';
+import SearchResultsPage from '@/components/pages/SearchResultsPage';
 import NotFoundPage from '@/components/pages/NotFoundPage';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="projects/:projectId/dashboard" element={<ProjectDashboardPage />} />
             <Route path="my-tasks" element={<MyTasksPage />} />
             <Route path="activity" element={<ActivityFeedPage />} />
+            <Route path="search" element={<SearchResultsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
